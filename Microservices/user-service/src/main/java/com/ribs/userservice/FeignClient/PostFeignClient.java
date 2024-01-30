@@ -5,9 +5,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name="post-service")
+@FeignClient(name="post-service",path = "post")
 public interface PostFeignClient {
-    @GetMapping("/post/{postId}")
+    @GetMapping("/{postId}")
     public Posts getPosts(@PathVariable String postId);
 
 
