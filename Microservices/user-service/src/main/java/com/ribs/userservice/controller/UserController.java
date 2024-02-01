@@ -15,15 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    public static final String USER_SERVICE ="user-service";
-
+//    public static final String USER_SERVICE ="user-service";
     @Autowired
      PostFeignClient postFeignClient;
     @Autowired
     NotificationFeignClient notificationFeignClient;
 
     @GetMapping("/{userId}")
-    @CircuitBreaker(name="USER_SERVICE",fallbackMethod = "userFallBack")
+    @CircuitBreaker(name="user-service",fallbackMethod = "userFallBack")
     public User getUser(@PathVariable String userId){
         User userOne = new User(userId,"User name" +userId,"xxxxx" +userId);
 
@@ -36,6 +35,9 @@ public class UserController {
         return  userOne;
     }
 
+    //The return Type of the fallbackMethod must always be the same as the return
+    //type of the api you are invoking(the one annotated with@CircuitBreaker).
+    //The fallbackMethod must have the Exception as a parameter.
     public User userFallBack(Exception userException){
         return new User("1","userOne","12454");
     }
